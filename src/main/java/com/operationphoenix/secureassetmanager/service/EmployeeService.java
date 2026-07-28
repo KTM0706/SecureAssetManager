@@ -1,6 +1,7 @@
 package com.operationphoenix.secureassetmanager.service;
 
 import com.operationphoenix.secureassetmanager.entity.Employee;
+import com.operationphoenix.secureassetmanager.exception.EmployeeNotFoundException;
 import com.operationphoenix.secureassetmanager.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(Long id){
-        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
 
     }
 
@@ -38,7 +39,7 @@ public class EmployeeService {
     public Employee updateEmployee(Long id, Employee updatedEmployee){
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Employee not found"));
+                .orElseThrow(()-> new EmployeeNotFoundException("Employee not found"));
 
         employee.setFirstName(updatedEmployee.getFirstName());
         employee.setLastName(updatedEmployee.getLastName());

@@ -2,6 +2,9 @@ package com.operationphoenix.secureassetmanager.controller;
 
 import com.operationphoenix.secureassetmanager.entity.Employee;
 import com.operationphoenix.secureassetmanager.service.EmployeeService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +31,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee (@RequestBody Employee employee){
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Employee> createEmployee (@Valid @RequestBody Employee employee){
+
+         Employee savedEmployee= employeeService.saveEmployee(employee);
+
+         return ResponseEntity
+                 .status(HttpStatus.CREATED)
+                 .body(savedEmployee);
 
     }
 
@@ -44,7 +52,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public Employee updateEmployee(
             @PathVariable Long id,
-            @RequestBody Employee employee){
+            @Valid @RequestBody Employee employee){
 
         return employeeService.updateEmployee(id, employee);
     }
